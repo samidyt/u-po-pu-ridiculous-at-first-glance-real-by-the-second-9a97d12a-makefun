@@ -23,6 +23,8 @@ const out = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 const chars = [...LINE].length;
 if (chars < 1 || chars > 200) throw new Error(`entry is ${chars} chars, gate needs 1–200`);
 if (!/\S/.test(LINE)) throw new Error('entry is only whitespace');
+// No leading/trailing whitespace: the entry must be exactly the line itself.
+if (LINE !== LINE.trim()) throw new Error('entry has leading or trailing whitespace');
 // One sentence: exactly one sentence-terminating mark, at the end.
 if ((LINE.match(/[.!?]/g) ?? []).length !== 1 || !/[.!?]$/.test(LINE)) {
   throw new Error('entry must be exactly one sentence');
